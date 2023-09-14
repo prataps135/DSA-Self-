@@ -1,12 +1,12 @@
-package DataStructure;
+package DataStructure.Queue;
 
-public class Queue {
+public class CircularQueue {
 
 	private int arr[];
 	private int size;
 	private int front, rear;
 
-	Queue(int size) {
+	CircularQueue(int size) {
 		this.size = size;
 		arr = new int[size];
 		front = -1;
@@ -33,8 +33,8 @@ public class Queue {
 		} else {
 			if (front == -1)
 				front = 0;
-
-			arr[++rear] = num;
+			rear = (rear + 1) % size;
+			arr[rear] = num;
 			System.out.println("Inserted " + num);
 		}
 	}
@@ -46,13 +46,12 @@ public class Queue {
 			return -1;
 		} else {
 			num = arr[front];
-			if (front >= rear) {
+			if (front == rear) {
 				front = -1;
 				rear = -1;
 			} else {
-				front++;
+				front = (front + 1) % size;
 			}
-			System.out.println("Deleted " + num);
 			return num;
 		}
 	}
@@ -62,26 +61,23 @@ public class Queue {
 		if (isEmpty()) {
 			System.out.println("Queue is empty");
 		} else {
-			System.out.println("Front index -> " + front);
+			System.out.println("Front -> " + front);
 			System.out.println("Items -> ");
-			for (i = front; i <= rear; i++) {
+			for (i = front; i != rear; i = (i + 1) % size)
 				System.out.print(arr[i] + " ");
-			}
-			System.out.println("Rear index -> " + rear);
+			System.out.println(arr[i]);
+			System.out.println("Rear -> " + rear);
 		}
 	}
 
-	public static void main(String args[]) {
-		Queue q = new Queue(5);
+	public static void main(String[] args) {
+		CircularQueue cq = new CircularQueue(5);
 
-		q.enQueue(10);
-		q.enQueue(20);
-		q.enQueue(30);
-		q.enQueue(40);
-		q.deQueue();
-		q.enQueue(50);
-
-		q.display();
+		cq.enQueue(10);
+		cq.enQueue(20);
+		cq.enQueue(30);
+		cq.deQueue();
+		cq.enQueue(40);
+		cq.display();
 	}
-
 }
